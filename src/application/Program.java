@@ -3,8 +3,8 @@ package application;
 
 import java.sql.Date;
 
-import entities.Department;
-import entities.Seller;
+import model.entities.Department;
+import model.entities.Seller;
 
 public class Program {
 
