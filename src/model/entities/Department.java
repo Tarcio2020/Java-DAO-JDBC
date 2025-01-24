@@ -14,7 +14,7 @@ public class Department implements Serializable {
 	}
 
 	public Department(Integer id, String name) {
-		id = id;
+		this.id = id;
 		this.name = name;
 	}
 
@@ -23,7 +23,7 @@ public class Department implements Serializable {
 	}
 
 	public void setId(Integer id) {
-		id = id;
+		this.id = id;
 	}
 
 	public String getName() {
@@ -53,8 +53,6 @@ public class Department implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Department [Id=" + id + ", name=" + name + "]";
-	}
-
-
+		return "Department [id=" + id + ", name=" + name + "]";
+	}	
 }
