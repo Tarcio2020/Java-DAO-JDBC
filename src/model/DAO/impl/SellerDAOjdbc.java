@@ -1,12 +1,19 @@
 package model.DAO.impl;
 
+import java.sql.Connection;
 import java.util.List;
 
-import model.DAO.SellerDAO;
+import model.DAO.SellerDao;
 import model.entities.Seller;
 
-public class SellerDAOjdbc implements SellerDAO{
+public class SellerDAOjdbc implements SellerDao{
 
+	private Connection connection;
+	
+	public SellerDAOjdbc(Connection connection) {
+		this.connection = connection;
+	}
+	
 	@Override
 	public void insert(Seller obj) {
 		// TODO Auto-generated method stub
@@ -27,7 +34,7 @@ public class SellerDAOjdbc implements SellerDAO{
 
 	@Override
 	public Seller findById(Integer id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
