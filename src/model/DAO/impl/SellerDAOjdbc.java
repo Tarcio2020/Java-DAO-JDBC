@@ -26,35 +26,35 @@ public class SellerDaoJdbc implements SellerDao {
 	@Override
 	public void insert(Seller obj) {
 		PreparedStatement st = null;
-		
+
 		try {
-		    st = conn.prepareStatement(
-		        "INSERT INTO seller " +
-		        "(Name, Email, BirthDate, BaseSalary, DepartmentId) " + 
-		        "VALUES "  + 
-		        "(?, ?, ?, ?, ?)",
-		        java.sql.Statement.RETURN_GENERATED_KEYS
-		    );
-		    
-		    st.setString(1, obj.getName());      
-		    st.setString(2, obj.getEmail());     
-		    st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
-		    st.setDouble(4, obj.getBaseSalary());                  
-		    st.setInt(5, obj.getDepartment().getId());                          
-		    
-		    int rowsAffected = st.executeUpdate();
-		    System.out.println("Rows affected: " + rowsAffected);
-		    
-		    if (rowsAffected > 0) {
-		    	ResultSet rs = st.getGeneratedKeys();
-		    	if(rs.next()) {
-		    		int id = rs.getInt(1);
-		    		obj.setId(id);
-		    	}
-		    }
-		    else {
-		    	throw new DbException("Unexpected error! No rows affected");
-		    }
+			st = conn.prepareStatement(
+					"INSERT INTO seller " +
+							"(Name, Email, BirthDate, BaseSalary, DepartmentId) " + 
+							"VALUES "  + 
+							"(?, ?, ?, ?, ?)",
+							java.sql.Statement.RETURN_GENERATED_KEYS
+					);
+
+			st.setString(1, obj.getName());      
+			st.setString(2, obj.getEmail());     
+			st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			st.setDouble(4, obj.getBaseSalary());                  
+			st.setInt(5, obj.getDepartment().getId());                          
+
+			int rowsAffected = st.executeUpdate();
+			System.out.println("Rows affected: " + rowsAffected);
+
+			if (rowsAffected > 0) {
+				ResultSet rs = st.getGeneratedKeys();
+				if(rs.next()) {
+					int id = rs.getInt(1);
+					obj.setId(id);
+				}
+			}
+			else {
+				throw new DbException("Unexpected error! No rows affected");
+			}
 		} 
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());
@@ -68,21 +68,21 @@ public class SellerDaoJdbc implements SellerDao {
 	@Override
 	public void update(Seller obj) {
 		PreparedStatement st = null;
-		
+
 		try {
-		    st = conn.prepareStatement(
-		    		"UPDATE seller " +
-		    		"SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? " +
-		    		"WHERE Id = ?"		    );
-		    
-		    st.setString(1, obj.getName());      
-		    st.setString(2, obj.getEmail());     
-		    st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
-		    st.setDouble(4, obj.getBaseSalary());                  
-		    st.setInt(5, obj.getDepartment().getId());                          
-		    st.setInt(6, obj.getId()); 
-		    
-		    st.executeUpdate();
+			st = conn.prepareStatement(
+					"UPDATE seller " +
+							"SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? " +
+					"WHERE Id = ?"		    );
+
+			st.setString(1, obj.getName());      
+			st.setString(2, obj.getEmail());     
+			st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			st.setDouble(4, obj.getBaseSalary());                  
+			st.setInt(5, obj.getDepartment().getId());                          
+			st.setInt(6, obj.getId()); 
+
+			st.executeUpdate();
 		} 
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());
@@ -93,7 +93,20 @@ public class SellerDaoJdbc implements SellerDao {
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM seller WHERE Id = ?");
+
+			st.setInt(1, id);
+
+			st.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DbJava.closeStatement(st);
+		}	
 	}
 
 	@Override
